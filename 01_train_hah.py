@@ -1,5 +1,5 @@
-import multiprocessing                     #多執行緒套件
-from ultralytics import YOLO               #yolo套件
+import multiprocessing                     
+from ultralytics import YOLO               
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()       #避免造成與主程式重複執行

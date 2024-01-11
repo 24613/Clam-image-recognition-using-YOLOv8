@@ -45,7 +45,7 @@ pip install pandas
 ```
 ## 模型訓練
 ### 1.在PyCharm測試YOLOv8模型
-創建一個python文件mai,py貼上在ultralytics官網上提供的script並執行以進行測試<br>
+創建一個python文件main.py貼上在ultralytics官網上提供的script並執行以進行測試<br>
 **注意：請確認是否安裝OpenCV及ultralytic套件**
 ```
 import cv2

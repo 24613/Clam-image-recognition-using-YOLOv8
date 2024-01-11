@@ -1,7 +1,12 @@
-# 應用YOLOv8製作文蛤苗影像辨識系統
+![螢幕擷取畫面 2024-01-11 085644](https://github.com/24613/Clam-image-recognition/assets/155034117/0ce800c1-222a-4ec5-96a4-39e79b85864c)# 應用YOLOv8製作文蛤苗影像辨識系統
+## 專題目的
+利用影像辨識技術計算文蛤苗的數量 
 ## 環境需求
 ### 1.安裝CUDA
-- 在命令提示字元中輸入指令`nvidia-smi`查詢電腦顯示卡狀態
+- 在命令提示字元中輸入指令查詢電腦GPU狀態
+```
+nvidia-smi
+```
 ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/74721b4c-33ba-4ed3-8957-16319ee7ac3f)
 - CUDA版本需在11.8以上，可至NVIDIA官網依電腦作業系統選定下載CUDA的版本進行下載https://developer.nvidia.com/cuda-downloads
 ### 2.安裝PyCharm編譯python程式
@@ -39,3 +44,98 @@ pip install opencv_contrib_python
 pip install pandas
 ```
 ## 模型訓練
+### 1.在PyCharm測試YOLOv8模型
+創建一個python文件貼上在ultralytics官網上提供的script並執行以進行測試<br>
+**注意：請確認是否安裝OpenCV及ultralytic套件**
+```
+import cv2
+from ultralytics import YOLO
+
+# Load the YOLOv8 model
+model = YOLO('yolov8n.pt')
+
+# Open the video file
+video_path = "path/to/your/video/file.mp4"
+cap = cv2.VideoCapture(video_path)
+
+# Loop through the video frames
+while cap.isOpened():
+    # Read a frame from the video
+    success, frame = cap.read()
+
+    if success:
+        # Run YOLOv8 inference on the frame
+        results = model(frame)
+
+        # Visualize the results on the frame
+        annotated_frame = results[0].plot()
+
+        # Display the annotated frame
+        cv2.imshow("YOLOv8 Inference", annotated_frame)
+
+        # Break the loop if 'q' is pressed
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+    else:
+        # Break the loop if the end of the video is reached
+        break
+
+# Release the video capture object and close the display window
+cap.release()
+cv2.destroyAllWindows()
+```
+
+其中video_path = "path/to/your/video/file.mp4"為待測試影像資料的路徑<br>
+測試結果如下：<br>
+
+![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/71fcb953-480a-4632-bd3e-29f0b351ff37)
+
+若改成cap = cv2.VideoCapture(0)則可從裝置上的第一個鏡頭提取影像<br>
+測試結果如下：<br>
+
+![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/13de8430-f41c-4f1d-bc1e-62c55a56db1e)
+
+### 2.準備資料集（圖片）
+- 訓練模型時需要足夠的資料量才能使模型訓練成果較理想。由於文蛤苗的實際大小較小，因此將圖片切割成數張以便做物件標記的動作，也能讓機器學習更好提取特徵
+![螢幕擷取畫面 ](https://github.com/24613/Clam-image-recognition/assets/155034117/29156fa6-886f-4a04-88e2-fec89c91f43c)
+- 建立資料集目錄
+  - 先建立一個資料夾存放圖片（將圖片名稱改為編號以方便分類）<br>
+    ![螢幕擷取畫面 2024-01-11 094801](https://github.com/24613/Clam-image-recognition/assets/155034117/414c0a91-d5d0-47c3-8933-c4fec01dc635)
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/627ddfae-0191-40c9-9697-14d106bca47b)
+    
+- 下載lableimg進行物件標記
+  - 至lableImg的GitHub https://github.com/HumanSignal/labelImg/releases 下載檔案windows_v1.8.1.zip
+  - 解壓縮後開啟windows_v1.8.1資料夾，點開data裡的predefinded_classes可修改物件清單，由於要辨識的物件只有文蛤，因此將清單修改為只有hah一個項目<br>
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/7e5e0bd6-c4fa-4df7-9308-58d669f1a92a)
+  - 開啟lableImg<br> 
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/f925865e-3315-4996-b5f9-be728e77ee92)
+  - 進入頁面<br>
+    ![螢幕擷取畫面 2024-01-11 093820](https://github.com/24613/Clam-image-recognition/assets/155034117/cd30f06e-4489-4922-b555-c0f8d2f3c7cd)
+    
+    - 1.將格式調整為YOLO格式
+    - 
+    - 2.開啟圖片資料夾(dataset)
+    - 
+       ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/ad7aa36e-c320-4e3c-bd5b-28c1ad56294f)
+      
+    - 3.設定標籤資訊存取的路徑(一樣為dataset)
+    
+    - 4.新增並繪製標記框
+      
+       ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/f50525c3-4fdc-491b-a688-dd7b9bc71348)
+
+      
+    - 5.標記完圖片中所有物件後點選save儲存
+      
+  - 回資料夾查看是否成功存取標籤資料<br>
+    標籤資料名稱應與圖片名稱相同<br>
+    
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/c0575766-4a4b-432a-b28c-6ca29d0e428f)
+
+    標籤資料文字檔的第一個數字為物件在清單中的編號(第一項為0號)，後面的數字則為標記範圍的座標<br>
+
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/499ffb29-85c8-4d5c-a500-f56e5131bcbf)
+
+到此即完成lableImg標籤動作
+
+

@@ -86,7 +86,7 @@ cv2.destroyAllWindows()
 ```
 
 其中video_path = "path/to/your/video/file.mp4"為待測試影像資料的路徑。<br>
-測試結果如下：<br>
+測試結果如下(影像資料：aacar.mp4)：<br>
 
 ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/71fcb953-480a-4632-bd3e-29f0b351ff37)
 

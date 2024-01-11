@@ -182,10 +182,53 @@ cv2.destroyAllWindows()
     )
     ```
   - 執行程式碼等待訓練成果<br>
+  
     ![00000](https://github.com/24613/Clam-image-recognition/assets/155034117/c3c00f4d-658d-4b16-b0fb-92f82dd6e52a)
-  - 至訓練成果資料夾查看模型在驗證集上的效果
+    
+  - 至訓練成果資料夾查看模型在驗證集上的效果(物件名稱後的數字為信心水平)<br>
+  
     ![0000](https://github.com/24613/Clam-image-recognition/assets/155034117/e54e1650-315f-4fef-ac35-67f2263898ea)
-  - 資料夾中weights裡的best.py為訓練好的模型，可拿來重複在訓練一次
+    
+  - 資料夾中weights裡的best.pt為訓練好的模型，可拿來重複在訓練一次
 
+    
+### 4.實際測試模型
+- 準備一張或一組跟訓練集和驗證集不同的圖片資料測試
+  
+- 11.png<br>
+  ![11](https://github.com/24613/Clam-image-recognition/assets/155034117/4ac5c262-7e54-4022-a99d-72f53b005b69)
 
+- 創建一個python文件predict.py撰寫測試模型程式碼，執行程式碼並等待測試成果
+  ```
+  import cv2
+  from ultralytics import YOLO
+  
+  #訓練好的偵測模型
+  model = YOLO('models/h_300.pt')
+  
+  #使用模型進行偵測
+  model.predict(
+      # 測試影像路徑
+      source = 'data/11.png',
+      # 偵測信心水準門限
+      conf = 0.25,
+      # 是否儲存信心水準
+      save_conf = False,
+      # 是否顯示信心水平值(置信度)
+      show_conf = False,
+      # 是否儲存偵測結果影像
+      save = True,
+      # 是否儲存擷取物件影像
+      save_crop = False,
+      # 是否儲存偵測結果物件位置(YOLO格式)
+      save_txt = False,
+      # 偵測過程特徵圖視覺化
+      visualize = False,
+      # 是否顯示偵測結果
+      show = True
+  )
+  cv2.waitKey(0)
+  ```
+- 測試結果儲存於runs資料夾內，至資料夾查看成果<br>
+  ![11](https://github.com/24613/Clam-image-recognition/assets/155034117/e1e95fcb-8369-4345-9d1c-bb9c55f72595)
 

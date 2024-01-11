@@ -1,0 +1,7 @@
+path: hah55/
+train: 'image/train' #訓練集路徑
+val: 'image/val' #驗證集路徑
+
+# 項目及編號
+names:
+0: h

@@ -12,7 +12,7 @@ nvidia-smi
 ### 2.安裝PyCharm編譯python程式
 - 至PyCharm官網下載https://www.jetbrains.com/pycharm/download/?section=windows
 - 下載完成之後開啟PyCharm建立一個新專案
-![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/933374d3-233c-4a80-ac50-cc1653e54481)
+  ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/933374d3-233c-4a80-ac50-cc1653e54481)
 - 可至命令提示字元輸入指令
 ```
 Python --version
@@ -26,7 +26,7 @@ pip --version
 ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/99c797e9-8edb-46bb-886c-ec0284830861)
 ### 3.安裝PyTorch和ultralytics函式庫
 - 至PyTorch官網https://pytorch.org/get-started/locally/ 選定符合的版本獲取安裝指令（綠色邊框），將指令在終端機輸入進行安裝
-![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/2fb5801e-9e3c-45f9-b8b2-9c6f7c25fe80)
+  ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/2fb5801e-9e3c-45f9-b8b2-9c6f7c25fe80)
 - 在終端機輸入安裝ultralytics套件指令，等待執行結束即可安裝完YOLOv8
 ```
 pip install ultralytics
@@ -97,7 +97,7 @@ cv2.destroyAllWindows()
 
 ### 2.準備資料集（圖片）
 - 訓練模型時需要足夠的資料量才能使模型訓練成果較理想。由於文蛤苗的實際大小較小，因此將圖片切割成數張以便做物件標記的動作，也能讓機器學習更好提取特徵
-![螢幕擷取畫面 ](https://github.com/24613/Clam-image-recognition/assets/155034117/29156fa6-886f-4a04-88e2-fec89c91f43c)
+  ![螢幕擷取畫面 ](https://github.com/24613/Clam-image-recognition/assets/155034117/29156fa6-886f-4a04-88e2-fec89c91f43c)
 - 建立資料集目錄
   - 先建立一個資料夾存放圖片（將圖片名稱改為編號以方便分類）<br>
     ![螢幕擷取畫面 2024-01-11 094801](https://github.com/24613/Clam-image-recognition/assets/155034117/414c0a91-d5d0-47c3-8933-c4fec01dc635)
@@ -113,9 +113,9 @@ cv2.destroyAllWindows()
     ![螢幕擷取畫面 2024-01-11 093820](https://github.com/24613/Clam-image-recognition/assets/155034117/cd30f06e-4489-4922-b555-c0f8d2f3c7cd)
     
     - 1.將格式調整為YOLO格式
-    - 
+     
     - 2.開啟圖片資料夾(dataset)
-    - 
+      
        ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/ad7aa36e-c320-4e3c-bd5b-28c1ad56294f)
       
     - 3.設定標籤資訊存取的路徑(一樣為dataset)
@@ -136,6 +136,56 @@ cv2.destroyAllWindows()
 
     ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/499ffb29-85c8-4d5c-a500-f56e5131bcbf)
 
-到此即完成lableImg標籤動作
+    到此即完成lableImg標籤動作
+### 3.執行模型訓練程式
+  - 將圖片及標籤資料分成訓練集(train)和驗證集(valid)<br>
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/d38b0163-1ce2-46f4-a88c-6ad0c6e23dd9)
+    ![螢幕擷取畫面](https://github.com/24613/Clam-image-recognition/assets/155034117/f982574a-c50f-434d-9a5d-379d3074ee1d)
+
+  - 創建一個yaml來源檔案，撰寫資料路徑
+    ```
+    path: hah55/
+    train: 'image/train' #訓練集路徑
+    val: 'image/val' #驗證集路徑
+
+    # 項目及編號
+    names:
+     0: h
+    ```
+  - 創建一個python文件train_hah.py撰寫模型訓練程式
+    ```
+    import multiprocessing
+    from ultralytics import YOLO
+
+    # 防止 Windows 中的子進程再次執行該腳本
+    if __name__ == '__main__':
+    # 避免造成與主程式重複執行
+    multiprocessing.freeze_support()
+    #預訓練的模型
+    model = YOLO('models/yolov8s.pt')
+    # 訓練模型
+    results = model.train(
+        #訓練資料來源
+        data = "yaml/20231127_hah.yaml",
+        # 輸入影像大小
+        imgsz = 400,
+        # 訓練次數
+        epochs = 30,
+        # 無改善結束訓練等待次數
+        patience = 50,
+        # 批次大小
+        batch = 1,
+        # 新增一個資料夾將訓練成果儲存在此
+        project = 'yolov8s_hah',
+        # 訓練成果名稱
+        name = 'exp01'
+    )
+    ```
+  - 執行程式碼等待訓練成果<br>
+    ![00000](https://github.com/24613/Clam-image-recognition/assets/155034117/c3c00f4d-658d-4b16-b0fb-92f82dd6e52a)
+  - 至訓練成果資料夾查看模型在驗證集上的效果
+    ![0000](https://github.com/24613/Clam-image-recognition/assets/155034117/e54e1650-315f-4fef-ac35-67f2263898ea)
+  - 資料夾中weights裡的best.py為訓練好的模型，可拿來重複在訓練一次
+
 
 

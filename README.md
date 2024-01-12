@@ -1,8 +1,8 @@
 # YOLOv8製作文蛤苗影像辨識系統
 ## 專題目的
 利用影像辨識技術計算文蛤苗的數量。<br>
-![whk096-087a](https://github.com/24613/Clam-image-recognition/assets/155034117/48ae797e-464e-4e5d-a2b3-da64d10c237d)
 
+![whk096-087a](https://github.com/24613/Clam-image-recognition/assets/155034117/b9f473a5-f9c5-400a-8be8-fb6a7825e6b1)
 ## 環境需求
 ### 1.安裝CUDA
 - 在命令提示字元中輸入指令查詢電腦GPU狀態。

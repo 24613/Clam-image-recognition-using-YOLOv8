@@ -1,4 +1,5 @@
 # YOLOv8製作文蛤苗影像辨識系統
+reference：[yolov8counting-trackingvehicles](https://github.com/freedomwebtech/yolov8counting-trackingvehicles)、[ultralytics](https://github.com/ultralytics/ultralytics)、[Ultralytics YOLOv8 Modes](https://docs.ultralytics.com/modes/)
 ## 專題目的
 利用影像辨識技術計算文蛤苗的數量。<br>
 

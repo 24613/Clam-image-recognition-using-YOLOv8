@@ -153,7 +153,7 @@ cv2.destroyAllWindows()
     names:
      0: h
     ```
-  - 創建一個python文件train_hah.py撰寫模型訓練程式
+  - 創建一個python文件train.py撰寫模型訓練程式
     ```
     import multiprocessing
     from ultralytics import YOLO

@@ -146,13 +146,13 @@ cv2.destroyAllWindows()
 
   - 創建一個yaml來源檔案，撰寫資料路徑
     ```
-    path: hah55/
-    train: 'image/train' #訓練集路徑
-    val: 'image/val' #驗證集路徑
+    path: image/
+    train: 'train' #訓練集路徑
+    val: 'val' #驗證集路徑
 
     # 項目及編號
     names:
-     0: h
+     0: 'h'
     ```
   - 創建一個python文件train.py撰寫模型訓練程式
     ```
